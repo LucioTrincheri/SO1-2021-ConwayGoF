@@ -38,13 +38,30 @@ board_t board_init_def(size_t col, size_t row, char def) {
 }
 
 /* Leer el tablero en una posición (col, row) */
-char board_get(board_t board, unsigned int col, unsigned int row) {
-	return board.grilla[col][row];	
+char board_get(board_t *board, unsigned int col, unsigned int row) {
+	return board->grilla[col][row];
+}
+
+/* Leer el tablero en una posición (col, row), pasando los valores en exceso a su valor real */
+char board_get_round(board_t *board, int col, int row){
+    return board->grilla[(col + board->columnas) % board->columnas][(row + board->filas) % board->filas];
+}
+
+int vecinos_vivos(board_t *board, int col, int row){
+	int vivos = 0;
+    for (int colNum = col - 1; colNum <= col + 1; colNum++) {
+        for (int rowNum = row - 1; rowNum <= row + 1; rowNum++) {
+            if(colNum != col || rowNum |= row){
+                vivos += (board_get_round(board, colNum, rowNum) == 'O') ? 1 : 0;
+            }
+        }
+    }
+    return vivos;
 }
 
 /* Asignarle un valor 'val' a la posición (col, row) del tablero*/
-board_t board_set(board_t board, unsigned int col, unsigned int row, char val) {
-	board.grilla[col][row] = val;
+board_t board_set(board_t *board, unsigned int col, unsigned int row, char val) {
+	board->grilla[col][row] = val;
 	return board;
 }
 
