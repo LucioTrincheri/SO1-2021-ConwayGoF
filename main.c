@@ -8,7 +8,7 @@
 Tenemos estado viejo y nuevo (arrays bidimencionales (?), el viejo solo se lee, no se modifica por lo tanto no es necesario lockear.
 El nuevo se edita, pero si hacemos que cada thread se ocupe de una zona no hace falta lockear.
 Necesitamos semaforos para que no se ejecuten mas thread simultaneos que cores disponibles (get_nprocs())
-Y barreras para que todos ejecuten su actualizacion y luego se muestre la generacion.Hola
+Y barreras para que todos ejecuten su actualizacion y luego se muestre la generacion.
 */
 
 
@@ -16,7 +16,7 @@ Y barreras para que todos ejecuten su actualizacion y luego se muestre la genera
 typedef struct _tablero{
     int columnas;
     int filas;
-    int ** grilla;
+    char ** grilla;
 }tablero;
 
 

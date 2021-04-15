@@ -6,18 +6,24 @@
 /******************************************************************************/
 /* Definición de la estructura de datos del tablero */
 
-struct _board;
-typedef struct _board board_t;
+
+typedef struct _board{
+    unsigned int columnas;
+    unsigned int filas;
+    char ** grilla;
+}board_t;
+
+
 /******************************************************************************/
 /******************************************************************************/
 
 /* Funciones sobre el tablero */
 
 /* Creación del tablero */
-int board_init(board_t *board, size_t col, size_t row);
+board_t board_init(size_t col, size_t row);
 
 /* Creación del tablero con un elemento por default*/
-int board_init_def(board_t *board, size_t col, size_t row, char def);
+board_t board_init_def(size_t col, size_t row, char def);
 
 /* Leer el tablero en una posición (col, row) */
 char board_get(board_t board, unsigned int col, unsigned int row);
@@ -26,7 +32,7 @@ char board_get(board_t board, unsigned int col, unsigned int row);
 char board_get_round(board_t board, int col, int row);
 
 /* Asignarle un valor 'val' a la posición (col, row) del tablero*/
-int board_set(board_t board, unsigned int col, unsigned int row, char val);
+board_t board_set(board_t board, unsigned int col, unsigned int row, char val);
 
 /* Leer de una lista de caracteres e interpretarla como un tablero */
 int board_load(board_t *board, char *str);
