@@ -50,8 +50,8 @@ char board_get_round(board_t *board, int col, int row){
 // Calcular la cantidad de vecinos vivos dada una posición (col, row)
 int vecinos_vivos(board_t *board, unsigned int col, unsigned int row){
 	int vivos = 0;
-    for (int colNum = col - 1; colNum <= col + 1; colNum++) {
-        for (int rowNum = row - 1; rowNum <= row + 1; rowNum++) {
+    for (unsigned int colNum = col - 1; colNum <= col + 1; colNum++) {
+        for (unsigned 	int rowNum = row - 1; rowNum <= row + 1; rowNum++) {
             if(colNum != col || rowNum != row){
                 vivos += (board_get_round(board, colNum, rowNum) == 'O') ? 1 : 0;
             }
@@ -62,9 +62,11 @@ int vecinos_vivos(board_t *board, unsigned int col, unsigned int row){
 
 /* Asignarle un valor 'val' a la posición (col, row) del tablero*/
 void board_set(board_t *board, unsigned int col, unsigned int row, char val) {
+	board->grilla[col][row] = val;
+}
 
 
-board_t computar_celda(board_t *oldBoard, board_t *newBoard, unsigned int col, unsigned int row) {
+void computar_celda(board_t *oldBoard, board_t *newBoard, unsigned int col, unsigned int row) {
     if(oldBoard->grilla[col][row] == 'X'){
         if(vecinos_vivos(oldBoard, col, row) == 3)
             board_set(newBoard, col, row, 'O');
@@ -77,7 +79,6 @@ board_t computar_celda(board_t *oldBoard, board_t *newBoard, unsigned int col, u
         else
             board_set(newBoard, col, row, 'X');
     }
-	return board;
 }
 
 /* Función para escribir el tablero */

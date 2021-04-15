@@ -18,7 +18,8 @@ game_t *loadGame(const char *filename) {
 	// Falta leer el resto y crear el board.
 	
 	char buffer[255];
-	fscanf(fp, "%254[^\n]", &buffer);
+	
+	fscanf(fp, "%254[^\n]", buffer);
 	
 	if (buffer[0] == '\0')
 		printf("se leyo un barra 0");
