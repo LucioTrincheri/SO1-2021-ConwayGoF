@@ -52,7 +52,7 @@ int vecinos_vivos(board_t *board, int col, int row){
 	int vivos = 0;
     for (int colNum = col - 1; colNum <= col + 1; colNum++) {
         for (int rowNum = row - 1; rowNum <= row + 1; rowNum++) {
-            if(colNum != col || rowNum |= row){
+            if(colNum != col || rowNum != row){
                 vivos += (board_get_round(board, colNum, rowNum) == 'O') ? 1 : 0;
             }
         }
@@ -61,17 +61,17 @@ int vecinos_vivos(board_t *board, int col, int row){
 }
 
 /* Asignarle un valor 'val' a la posición (col, row) del tablero*/
-board_t board_set(board_t *board, unsigned int col, unsigned int row, char val) {
+board_t *board_set(board_t *board, unsigned int col, unsigned int row, char val) {
 	board->grilla[col][row] = val;
 	return board;
 }
 
+/*
 board_t computar_celda(board_t *oldBoard, board_t *newBoard, unsigned int col, unsigned int row) {
-    if(oldBoard->grill)
-	board->grilla[col][row] = val;
+
 	return board;
 }
-
+*/
 /* Función para escribir el tablero */
 void board_show(board_t board, FILE *fp) {
 	char actual = board.grilla[0][0];
