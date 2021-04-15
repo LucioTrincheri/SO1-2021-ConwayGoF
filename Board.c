@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <Board.h>
+#include <"Board.h">
 
 
 /* Creación del tablero */
@@ -45,15 +45,26 @@ char board_get(board_t board, unsigned int col, unsigned int row) {
 /* Asignarle un valor 'val' a la posición (col, row) del tablero*/
 board_t board_set(board_t board, unsigned int col, unsigned int row, char val) {
 	board.grilla[col][row] = val;
-	return board;	
+	return board;
 }
 
 
 /* Función para escribir el tablero */
 void board_show(board_t board, FILE *fp) {
-	
-	
-
+	char actual = board.grilla[0][0];
+	fprintf(fp, "%c", actual);
+	int cant = 1;
+	for(int j = 0; j < board.columnas; j++){
+        for(int i = 0; i < board.filas; i++){
+			if (board.grilla[i][j] != actual) {
+				fprintf(fp, "%d\n", cant);
+				cant = 1;
+				actual = board.grilla[i][j];
+				fprintf(fp, "%c", actual);
+			} else 
+				cant ++;
+        }
+    }
 }
 
 /* Destroy board */
