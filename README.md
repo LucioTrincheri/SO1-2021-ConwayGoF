@@ -1,0 +1,2 @@
+# ConwayGoF
+ConwayGoF with pthreads
