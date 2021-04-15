@@ -18,11 +18,11 @@ int main()
 	printf("Hola\n");
 
 	board_t hola = board_init_def(5,5, 'C');
-	FILE *fp = fopen("resultado.txt", "w+");
+
 	hola.grilla[2][3] = 'a';
 	hola.grilla[2][4] = 'a';
 	hola.grilla[3][0] = 'a';
-	board_show(hola, fp);
+	writeBoard(hola, "resultado.txt");
 	
 	for(unsigned int i = 0; i < hola.columnas; i++){
         for(unsigned int j = 0; j < hola.filas; j++){
