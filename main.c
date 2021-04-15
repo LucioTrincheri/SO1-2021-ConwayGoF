@@ -12,7 +12,12 @@ Y barreras para que todos ejecuten su actualizacion y luego se muestre la genera
 */
 
 
-
+// Crear una instancia de game, 
+// Game: leer el archivo
+// Main: crear los pthreads, hacer funcion que agarrando los tableros hacen una actualizacion (barreras para esperar).
+// En tablero nuevo va aestar la nueva generacion. Pasarla a tablero viejo y crear un nuevo tablero
+// vacio. cont ++. Repetir. Al finalizar, llamar:
+// Game: writeBoard y gg
 int main()
 {
 	printf("Hola\n");

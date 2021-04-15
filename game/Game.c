@@ -4,6 +4,8 @@
 
 
 
+
+
 /* Cargamos el juego desde un archivo */
 game_t *loadGame(const char *filename) {
 	FILE *fp = fopen(filename, "r");
@@ -37,8 +39,8 @@ void destroyGame(game_t *game) {
 
 
 
-
 /* Guardamos el tablero 'board' en el archivo 'filename' */
+// Puede llegar a ser necesario pasar la cantidad de ciclos para imprimirlo
 void writeBoard(board_t board, const char *filename) {
 	FILE *fp = fopen(filename, "w+");
 	fprintf(fp, "%d %d\n", board.filas, board.columnas);
