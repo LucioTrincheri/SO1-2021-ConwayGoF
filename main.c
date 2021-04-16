@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <math.h>
+#include <unistd.h>
 #include <sys/sysinfo.h>
 #include "game/Board.h"
 #include "game/Game.h"
@@ -54,6 +55,7 @@ void *trabajo_thread(argshilo *arg){
 	}
 
 	free(arg);
+	
 	pthread_exit(0);
 }
 
@@ -64,15 +66,16 @@ int main()
 	board_t *viejo = board_init(game->board->columnas, game->board->filas);
 	board_t *nuevo = game->board;
 
-	//int nthread = 1;
-	int nthread = get_nprocs();
+	
+	int nthread = 2;
+	//int nthread = get_nprocs();
 	printf("Cantidad de hilos: %d\n", nthread);
 	int *interv;
 	interv = interv_filas_pthr(nuevo, nthread);
 	pthread_t threads[nthread];
 	pthread_barrier_init(&barrier, NULL, nthread);
 	
-	for (int i = 0;i < nthread; i++){
+	for (int i = 0; i < nthread; i++) {
 		argshilo *arg = malloc(sizeof (argshilo));
 		arg->inicio = interv[2*i];
 		arg->final = interv[(2*i) + 1];
@@ -81,15 +84,17 @@ int main()
 		arg->ciclos = game->ciclos;
 		pthread_create(&threads[i], NULL, (void *)trabajo_thread, (void *) arg);
 	}
-	for (int i = 0;i < nthread; i++)
+
+	
+	for (int i = 0;i < nthread; i++) 
 		pthread_join(threads[i], NULL);
-
+	
 	pthread_barrier_destroy(&barrier);
-	
-	
-	
 
-
+	
+	
+	
+	
 	// Escritura del estado final
 	if (game->ciclos % 2 == 0){
 		// Auxiliar se printea para ver mejor
@@ -113,10 +118,12 @@ int main()
 		writeBoard(viejo, "resultado.txt");
 	}
 	
-
+	
 	free(interv);
+
 	board_destroy(viejo);
 	game_destroy(game);
+
 	
 	return 0;
 }

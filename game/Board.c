@@ -115,7 +115,7 @@ int* interv_filas_pthr(board_t* tablero, int cant_pthr){
         intervalo[2 * i] = i * div;
         intervalo[(2 * i) + 1] = ((i + 1) * div) - 1;
     }
-    intervalo[2 *i ] = i * div;
+    intervalo[2 * i] = i * div;
     intervalo[(2 * i) + 1] = ((i + 1) * div) - 1 + rest;
     return intervalo;
 }
