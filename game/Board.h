@@ -20,7 +20,7 @@ typedef struct _board{
 /* Funciones sobre el tablero */
 
 /* Creación del tablero */
-board_t board_init(size_t col, size_t row);
+board_t *board_init(size_t col, size_t row);
 
 /* Creación del tablero con un elemento por default*/
 board_t board_init_def(size_t col, size_t row, char def);
@@ -34,10 +34,14 @@ char board_get_round(board_t *board, int col, int row);
 /* Asignarle un valor 'val' a la posición (col, row) del tablero*/
 void board_set(board_t *board, unsigned int col, unsigned int row, char val);
 
+/* Decide si la celula de la celda dada vive o muere */
+void computar_celda(board_t *oldBoard, board_t *newBoard, unsigned int col, unsigned int row);
+
+int *interv_filas_pthr(board_t* tablero, int cant_pthr);
 
 /* Función para mostrar el tablero */
-void board_show(board_t board, FILE *fp);
+void board_show(board_t *board, FILE *fp);
 
 /* Destroy board */
-void board_destroy(board_t board);
+void board_destroy(board_t *board);
 #endif
