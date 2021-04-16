@@ -37,7 +37,6 @@ void *trabajo_thread(argshilo *arg){
 	board_t *nuevoThread = arg->nuevo;
 	board_t *viejoThread = arg->viejo;
 	board_t *aux;
-	printf("[%d, %d]\n", arg->inicio, arg->final);
 	
 	for (int i = 0; i < arg->ciclos; i++) {
 		// intervambiamos viejo con nuevo y llamamos a nueva generacion, cuando 
@@ -48,8 +47,6 @@ void *trabajo_thread(argshilo *arg){
 		viejoThread = aux;
 	
 		nueva_generacion_tablero(arg->inicio, arg->final,  viejoThread,  nuevoThread);
-
-		printf("Hilo con inicio en %d esperando...\n", arg->inicio);
 		pthread_barrier_wait(&barrier);
 		
 	}
@@ -67,9 +64,8 @@ int main()
 	board_t *nuevo = game->board;
 
 	
-	int nthread = 2;
-	//int nthread = get_nprocs();
-	printf("Cantidad de hilos: %d\n", nthread);
+	//int nthread = 2;
+	int nthread = get_nprocs();
 	int *interv;
 	interv = interv_filas_pthr(nuevo, nthread);
 	pthread_t threads[nthread];
@@ -92,29 +88,21 @@ int main()
 	pthread_barrier_destroy(&barrier);
 
 	
-	
-	
-	
-	// Escritura del estado final
-	if (game->ciclos % 2 == 0){
-		// Auxiliar se printea para ver mejor
-		for(unsigned int i = 0; i < nuevo->filas; i++){
+	/*
+			for(unsigned int i = 0; i < nuevo->filas; i++){
 			for(unsigned int j = 0; j < nuevo->columnas; j++){
 				printf("%c", nuevo->grilla[i][j]);
 			}
 			printf("\n");
 		}
+	*/
+	
+	
+	// Escritura del estado final
+	if (game->ciclos % 2 == 0){
 		writeBoard(nuevo, "resultado.txt");
 	}
 	else {
-
-		// Auxiliar se printea para ver mejor
-		for(unsigned int i = 0; i < viejo->filas; i++){
-			for(unsigned int j = 0; j < viejo->columnas; j++){
-				printf("%c", viejo->grilla[i][j]);
-			}
-			printf("\n");
-		}
 		writeBoard(viejo, "resultado.txt");
 	}
 	

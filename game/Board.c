@@ -58,7 +58,6 @@ int vecinos_vivos(board_t *board, int col, int row){
                 vivos += ((board_get_round(board, colNum, rowNum)) == 'O') ? 1 : 0;
         }
     }
-    //printf("Canti de vivos en fila %d col %d = %d\n", row, col, vivos);
     return vivos;
 }
 

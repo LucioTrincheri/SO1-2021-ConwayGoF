@@ -55,7 +55,6 @@ void nueva_generacion_tablero(int inicio, int final, board_t* viejo, board_t* nu
 	for(int celda = inicio; celda <= final; celda++){
 		int fila = floor(celda / viejo->columnas);
 		int columna = celda % viejo->columnas;
-		//printf("Fila, col: %d %d\n",fila, columna);
 		computar_celda(viejo, nuevo, columna, fila);
 	}
 }
