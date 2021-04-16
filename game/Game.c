@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "Game.h"
 
 
@@ -50,16 +51,17 @@ game_t *loadGame(const char *filename) {
 
 // Funcion que realiza la nueva generacion en las filas dadas, lee la vieja generacion del tablero viejo y modifica el nuevo.
 // Inicio inclusivo, fin inclusivo. 
-void nueva_generacion_tablero(int inicio, int fin, board_t* viejo, board_t* nuevo){
-	for(int rowNum = inicio; rowNum <= fin; rowNum++){
-		unsigned int columna = 0;
-		for(;columna < viejo->columnas; columna++)
-			computar_celda(viejo, nuevo, columna, rowNum);
+void nueva_generacion_tablero(int inicio, int final, board_t* viejo, board_t* nuevo){
+	for(int celda = inicio; celda <= final; celda++){
+		int fila = floor(celda / viejo->columnas);
+		int columna = celda % viejo->columnas;
+		//printf("Fila, col: %d %d\n",fila, columna);
+		computar_celda(viejo, nuevo, columna, fila);
 	}
 }
 
 /* Se destruye y libera la memoria */
-void destroyGame(game_t *game) {
+void game_destroy(game_t *game) {
 	board_destroy(game->board);
 	free(game);
 }
@@ -68,9 +70,9 @@ void destroyGame(game_t *game) {
 
 /* Guardamos el tablero 'board' en el archivo 'filename' */
 // Puede llegar a ser necesario pasar la cantidad de ciclos para imprimirlo
-void writeBoard(board_t board, const char *filename) {
+void writeBoard(board_t *board, const char *filename) {
 	FILE *fp = fopen(filename, "w+");
-	fprintf(fp, "%d %d\n", board.filas, board.columnas);
+	fprintf(fp, "%d %d\n", board->filas, board->columnas);
 	board_show(board, fp);
 	fclose(fp);
 }

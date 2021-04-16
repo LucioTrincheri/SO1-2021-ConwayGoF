@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "Board.h"
 
 
@@ -57,6 +58,7 @@ int vecinos_vivos(board_t *board, int col, int row){
                 vivos += ((board_get_round(board, colNum, rowNum)) == 'O') ? 1 : 0;
         }
     }
+    //printf("Canti de vivos en fila %d col %d = %d\n", row, col, vivos);
     return vivos;
 }
 
@@ -82,18 +84,18 @@ void computar_celda(board_t *oldBoard, board_t *newBoard, unsigned int col, unsi
 }
 
 /* Función para escribir el tablero */
-void board_show(board_t board, FILE *fp) {
-	char actual = board.grilla[0][0];
+void board_show(board_t *board, FILE *fp) {
+	char actual = board->grilla[0][0];
 	
 	
     int cant = 0;
-	for(unsigned int i = 0; i < board.filas; i++){
-        for(unsigned int j = 0; j < board.columnas; j++){
-			if (board.grilla[i][j] != actual) {
+	for(unsigned int i = 0; i < board->filas; i++){
+        for(unsigned int j = 0; j < board->columnas; j++){
+			if (board->grilla[i][j] != actual) {
 				fprintf(fp, "%d", cant);
                 fprintf(fp, "%c\n", actual);
 				cant = 1;
-				actual = board.grilla[i][j];
+				actual = board->grilla[i][j];
 				
 			} else 
 				cant ++;
@@ -101,6 +103,21 @@ void board_show(board_t board, FILE *fp) {
     }
 
     fprintf(fp, "%d%c\n", cant, actual);
+}
+
+// n filas , m columnas
+int* interv_filas_pthr(board_t* tablero, int cant_pthr){
+    int div = floor((tablero->filas * tablero->columnas) / cant_pthr);
+    int rest = (tablero->filas * tablero->columnas) % cant_pthr;
+    int* intervalo = malloc(2 * div * sizeof(int));
+    int i = 0;
+    for(; i < cant_pthr - 1; i++){
+        intervalo[2 * i] = i * div;
+        intervalo[(2 * i) + 1] = ((i + 1) * div) - 1;
+    }
+    intervalo[2 *i ] = i * div;
+    intervalo[(2 * i) + 1] = ((i + 1) * div) - 1 + rest;
+    return intervalo;
 }
 
 
