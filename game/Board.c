@@ -84,21 +84,26 @@ void computar_celda(board_t *oldBoard, board_t *newBoard, unsigned int col, unsi
 /* Función para escribir el tablero */
 void board_show(board_t board, FILE *fp) {
 	char actual = board.grilla[0][0];
-	fprintf(fp, "%c", actual);
-	int cant = 1;
-	for(unsigned int j = 0; j < board.columnas; j++){
-        for(unsigned int i = 0; i < board.filas; i++){
+	
+    //fprintf(fp, "%c", actual);
+	
+    int cant = 0;
+	for(unsigned int i = 0; i < board.columnas; i++){
+        for(unsigned int j = 0; j < board.filas; j++){
 			if (board.grilla[j][i] != actual) {
-				fprintf(fp, "%d\n", cant);
+				fprintf(fp, "%d", cant);
+                fprintf(fp, "%c\n", actual);
 				cant = 1;
 				actual = board.grilla[j][i];
-				fprintf(fp, "%c", actual);
+				
 			} else 
 				cant ++;
         }
     }
-    fprintf(fp, "%d\n", cant-1);
+
+    fprintf(fp, "%d%c\n", cant, actual);
 }
+
 
 /* Destroy board */
 void board_destroy(board_t board) {

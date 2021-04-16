@@ -19,13 +19,34 @@ game_t *loadGame(const char *filename) {
 	
 	// Falta leer el resto y crear el board.
 	
-	char buffer[255];
+	char carac;
+	int cant;
 	
-	fscanf(fp, "%254[^\n]", buffer);
+	board_t tablero = board_init(filas, columnas);
+
+	unsigned int posI = 0, posJ = 0;
+
+	while(fscanf(fp, "%d%c",  &cant, &carac)!=-1){
+		
+		for(int contPuestas = 0; contPuestas < cant; ){
+			if (posI < tablero.filas){
+				board_set(&tablero, posI, posJ, carac);
+				posI ++;
+				contPuestas ++;
+			}
+			else {
+				posI = 0;
+				posJ ++;
+				board_set(&tablero, posI, posJ, carac);
+				contPuestas ++;
+				posI ++;
+			}
+		}
+	}
 	
-	if (buffer[0] == '\0')
-		printf("se leyo un barra 0");
-	
+	game->board = tablero;
+
+	fclose(fp);
 	return game;
 	
 	
@@ -34,6 +55,7 @@ game_t *loadGame(const char *filename) {
 
 /* Se destruye y libera la memoria */
 void destroyGame(game_t *game) {
+	board_destroy(game->board);
 	free(game);
 }
 

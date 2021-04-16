@@ -18,24 +18,23 @@ Y barreras para que todos ejecuten su actualizacion y luego se muestre la genera
 // En tablero nuevo va aestar la nueva generacion. Pasarla a tablero viejo y crear un nuevo tablero
 // vacio. cont ++. Repetir. Al finalizar, llamar:
 // Game: writeBoard y gg
+
 int main()
 {
 	printf("Hola\n");
 
-	board_t hola = board_init_def(5,5, 'C');
+	game_t * game = loadGame("tablero.txt");
 
-	hola.grilla[2][3] = 'a';
-	hola.grilla[2][4] = 'a';
-	hola.grilla[3][0] = 'a';
-	writeBoard(hola, "resultado.txt");
 	
-	for(unsigned int i = 0; i < hola.columnas; i++){
-        for(unsigned int j = 0; j < hola.filas; j++){
-			printf("%c", hola.grilla[i][j]);
+	for(unsigned int i = 0; i < game->board.columnas; i++){
+        for(unsigned int j = 0; j < game->board.filas; j++){
+			printf("%c", game->board.grilla[j][i]);
         }
 		printf("\n");
     }
-	board_destroy(hola);
+
+	writeBoard(game->board, "resultado.txt");
+	destroyGame(game);
 	
     return 0;
 }
