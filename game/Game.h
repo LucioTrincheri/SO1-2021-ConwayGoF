@@ -8,7 +8,7 @@
 enum State {ALIVE, DEAD};
 /******************************************************************************/
 struct _game{
-	board_t board;
+	board_t *board;
 	int ciclos;
 };
 
@@ -25,6 +25,8 @@ void writeBoard(board_t board, const char *filename);
 ciclos indicados en 'cycles' en 'nuprocs' unidades de procesamiento*/
 board_t *congwayGoL(board_t *board, unsigned int cycles, const int nuproc);
 
+/* modifica el tablero nuevo dependiendo de la nueva generacion. */
+void nueva_generacion_tablero(int inicio, int fin, board_t* viejo, board_t* nuevo);
 
 /* Se destruye y libera la memoria */
 void destroyGame(game_t *game);

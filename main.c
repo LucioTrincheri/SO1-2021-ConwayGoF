@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include "game/Board.h"
 #include "game/Game.h"
 
@@ -23,18 +24,47 @@ int main()
 {
 	printf("Hola\n");
 
-	game_t * game = loadGame("tablero.txt");
+	game_t *game = loadGame("tablero.txt");
+	board_t *viejo = board_init(game->board->columnas, game->board->filas);
 
-	
-	for(unsigned int i = 0; i < game->board.columnas; i++){
-        for(unsigned int j = 0; j < game->board.filas; j++){
-			printf("%c", game->board.grilla[j][i]);
+	board_t *nuevo = game->board;
+	board_t *aux;
+
+	// Dividir  tablero
+	for (int i = 0; i < game->ciclos; i++) {
+		// Incializar tableros --
+		// Loop n veces --
+		// Generar nuevos tableros --
+		// Crear pthreads
+		// Lanzar pthreads con parametros de division de tablero
+		// old = new --
+		// Fin loop --
+		aux = nuevo;
+		nuevo = viejo;
+		viejo = aux;
+		nueva_generacion_tablero(0, 2, viejo, nuevo);
+		nueva_generacion_tablero(3, 4, viejo, nuevo);
+		nueva_generacion_tablero(5, 5, viejo, nuevo);
+		
+		for(unsigned int i = 0; i < nuevo->filas; i++){
+			for(unsigned int j = 0; j < nuevo->columnas; j++){
+				printf("%c", nuevo->grilla[i][j]);
+			}
+			printf("\n");
+		}
+		sleep(1);
+		system("clear");
+		
+	}
+/*
+	for(unsigned int i = 0; i < nuevo->filas; i++){
+        for(unsigned int j = 0; j < nuevo->columnas; j++){
+			printf("%c", nuevo->grilla[i][j]);
         }
 		printf("\n");
-    }
-
-	writeBoard(game->board, "resultado.txt");
+	}*/
+	writeBoard(*nuevo, "resultado.txt");
 	destroyGame(game);
-	
+	// Ver que este todo liberado
     return 0;
 }
