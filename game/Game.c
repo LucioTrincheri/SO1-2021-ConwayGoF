@@ -4,6 +4,19 @@
 #include "Game.h"
 
 
+// La salida tiene que tener formato asi EJ 10 itera 10 filas 10 colum:
+/*
+10 10
+5X2O3X
+10X
+10O
+2O3X2O3X
+.
+.
+.
+*/
+// Y el nombre del archivo salida tiene que ser, si la entrada es  filepath/NombreArchivo.game(no necesariamente game), 
+// la salida es de la forma: filepath/NombreArchivo.final (vas a tener que extraer NombreArchivo para usarlo).
 
 /* Cargamos el juego desde un archivo */
 game_t *loadGame(const char *filename) {
@@ -59,7 +72,7 @@ void nueva_generacion_tablero(int inicio, int final, board_t* viejo, board_t* nu
 	}
 }
 
-/* Se destruye y libera la memoria */
+/* Funcion encargada de librera la memoria asiganada a un game */
 void game_destroy(game_t *game) {
 	board_destroy(game->board);
 	free(game);

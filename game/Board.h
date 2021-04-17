@@ -37,6 +37,7 @@ void board_set(board_t *board, unsigned int col, unsigned int row, char val);
 /* Decide si la celula de la celda dada vive o muere */
 void computar_celda(board_t *oldBoard, board_t *newBoard, unsigned int col, unsigned int row);
 
+/* Calcula los intervalos de celdas dada la cantidad de threads */
 int *interv_filas_pthr(board_t* tablero, int cant_pthr);
 
 /* Función para mostrar el tablero */

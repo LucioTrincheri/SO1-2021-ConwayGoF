@@ -31,6 +31,4 @@ void nueva_generacion_tablero(int inicio, int fin, board_t* viejo, board_t* nuev
 /* Se destruye y libera la memoria */
 void game_destroy(game_t *game);
 
-
-
 #endif

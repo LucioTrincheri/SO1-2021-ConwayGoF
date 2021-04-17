@@ -4,7 +4,7 @@
 #include "Board.h"
 
 
-/* Creación del tablero */
+/* Asigno memoria para un nuevo tablero y su grilla*/
 board_t *board_init(size_t col, size_t row) {
 	board_t *tablero = malloc(sizeof(board_t));
     
@@ -49,7 +49,7 @@ char board_get_round(board_t *board, int col, int row){
     return board->grilla[(row + board->filas) % board->filas][(col + board->columnas) % board->columnas];
 }
 
-// Calcular la cantidad de vecinos vivos dada una posición (col, row)
+/* Calcular la cantidad de vecinos vivos dada una posición (col, row) */
 int vecinos_vivos(board_t *board, int col, int row){
 	int vivos = 0;
     for (int rowNum = row - 1; rowNum <= row + 1; rowNum++) {
@@ -66,7 +66,7 @@ void board_set(board_t *board, unsigned int col, unsigned int row, char val) {
 	board->grilla[row][col] = val;
 }
 
-
+/* Dado el estado anterior de una celda, calcula su nuevo estado en el tablero nuevo*/
 void computar_celda(board_t *oldBoard, board_t *newBoard, unsigned int col, unsigned int row) {
     if(oldBoard->grilla[row][col] == 'X'){
         if(vecinos_vivos(oldBoard, (int)col, (int)row) == 3)
@@ -85,8 +85,6 @@ void computar_celda(board_t *oldBoard, board_t *newBoard, unsigned int col, unsi
 /* Función para escribir el tablero */
 void board_show(board_t *board, FILE *fp) {
 	char actual = board->grilla[0][0];
-	
-	
     int cant = 0;
 	for(unsigned int i = 0; i < board->filas; i++){
         for(unsigned int j = 0; j < board->columnas; j++){
@@ -104,7 +102,8 @@ void board_show(board_t *board, FILE *fp) {
     fprintf(fp, "%d%c\n", cant, actual);
 }
 
-// n filas , m columnas
+// Dado una tablero, se encarga de calcular los intervalos
+// que se debe encargar de computar cada thread.
 int* interv_filas_pthr(board_t* tablero, int cant_pthr){
     int div = floor((tablero->filas * tablero->columnas) / cant_pthr);
     int rest = (tablero->filas * tablero->columnas) % cant_pthr;
@@ -120,7 +119,7 @@ int* interv_filas_pthr(board_t* tablero, int cant_pthr){
 }
 
 
-/* Destroy board */
+/* Funcion encargada de liberar la memoria de un tablero */
 void board_destroy(board_t *board) {
 	for(unsigned int i = 0; i < board->filas; i++){
         free(board->grilla[i]);
