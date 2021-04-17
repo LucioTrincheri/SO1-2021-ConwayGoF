@@ -18,6 +18,13 @@
 // Y el nombre del archivo salida tiene que ser, si la entrada es  filepath/NombreArchivo.game(no necesariamente game), 
 // la salida es de la forma: filepath/NombreArchivo.final (vas a tener que extraer NombreArchivo para usarlo).
 
+void agregar_a_fila(char letra, int cantAIngre, int linea, int inicio, board_t *tablero) {
+	for(int puestas = 0; puestas < cantAIngre; puestas++) {
+		board_set(tablero, inicio + puestas, linea, letra);
+	}
+}
+
+
 /* Cargamos el juego desde un archivo */
 game_t *loadGame(const char *filename) {
 	FILE *fp = fopen(filename, "r");
@@ -25,31 +32,33 @@ game_t *loadGame(const char *filename) {
 	int ciclos, filas, columnas;
 	fscanf(fp, "%d %d %d", &ciclos, &filas, &columnas);
 	
-	game_t * game = malloc(sizeof(game_t));
+	game_t *game = malloc(sizeof(game_t));
 	
 	game->ciclos = ciclos;
-		
-	char carac;
-	int cant;
+	
+	
+	char linea[(columnas * 2) + 1];
 	
 	board_t *tablero = board_init(columnas, filas);
-
-	unsigned int posI = 0, posJ = 0;
-
-	while(fscanf(fp, "%d%c",  &cant, &carac)!=-1){
-		
-		for(int contPuestas = 0; contPuestas < cant; ){
-			if (posI < tablero->columnas){
-				board_set(tablero, posI, posJ, carac);
-				posI ++;
-				contPuestas ++;
+	
+	for(int cantLineas = 0; cantLineas < filas; cantLineas++){
+		fscanf(fp, "%s[^\n]", (char *) &linea);
+		char numero[512] = {0};
+		int contNumero = 0, inicio = 0;
+		for(int i = 0; linea[i] != '\0'; i++){
+			if (linea[i] != 'X' && linea[i] != 'O'){
+				numero[contNumero] = linea[i];
+				contNumero++;
 			}
 			else {
-				posI = 0;
-				posJ ++;
-				board_set(tablero, posI, posJ, carac);
-				contPuestas ++;
-				posI ++;
+				int cantAIngre = (int) atoi(numero);
+				char numero[512] = {0};
+				numero[1] = numero[1];
+				contNumero = 0;
+				char letra =  linea[i];
+				
+				agregar_a_fila(letra, cantAIngre, cantLineas, inicio, tablero);
+				inicio += cantAIngre;
 			}
 		}
 	}
@@ -57,8 +66,7 @@ game_t *loadGame(const char *filename) {
 	game->board = tablero;
 
 	fclose(fp);
-	return game;
-	
+	return game;	
 	
 }
 
@@ -84,7 +92,6 @@ void game_destroy(game_t *game) {
 // Puede llegar a ser necesario pasar la cantidad de ciclos para imprimirlo
 void writeBoard(board_t *board, const char *filename) {
 	FILE *fp = fopen(filename, "w+");
-	fprintf(fp, "%d %d\n", board->filas, board->columnas);
 	board_show(board, fp);
 	fclose(fp);
 }

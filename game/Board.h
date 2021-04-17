@@ -22,9 +22,6 @@ typedef struct _board{
 /* Creación del tablero */
 board_t *board_init(size_t col, size_t row);
 
-/* Creación del tablero con un elemento por default*/
-board_t board_init_def(size_t col, size_t row, char def);
-
 /* Leer el tablero en una posición (col, row) */
 char board_get(board_t *board, unsigned int col, unsigned int row);
 

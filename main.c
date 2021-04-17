@@ -52,8 +52,8 @@ int main() {
 	// Dada la cantidad de threads a utilizar, declaramos los threads
 	// y calculamos los intervalos correspondientes a cada uno de ellos. 
 	int nthread = get_nprocs();
-	int *interv;
-	interv = interv_filas_pthr(nuevo, nthread);
+	int *interv = interv_filas_pthr(nuevo, nthread);
+
 	pthread_t threads[nthread];
 	pthread_barrier_init(&barrier, NULL, nthread);
 	

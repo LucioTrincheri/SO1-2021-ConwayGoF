@@ -18,27 +18,6 @@ board_t *board_init(size_t col, size_t row) {
 }
 
 
-/* Creación del tablero con un elemento por default*/
-board_t board_init_def(size_t col, size_t row, char def) {
-	// Primero pedimos memoria.
-	board_t tablero;
-    tablero.columnas = col;
-    tablero.filas = row;
-    tablero.grilla = malloc(row * sizeof(char *));
-    for(size_t i = 0; i < row; i++){
-        tablero.grilla[i] = malloc(col * sizeof(char));
-    }
-	
-	// Inicializamos
-    for(unsigned int j = 0; j < tablero.filas; j++){
-	    for(unsigned int i = 0; i < tablero.columnas; i++){
-			tablero.grilla[j][i] = def;
-        }
-    }
-	
-    return tablero;
-}
-
 /* Leer el tablero en una posición (col, row) */
 char board_get(board_t *board, unsigned int col, unsigned int row) {
 	return board->grilla[row][col];
@@ -84,31 +63,38 @@ void computar_celda(board_t *oldBoard, board_t *newBoard, unsigned int col, unsi
 
 /* Función para escribir el tablero */
 void board_show(board_t *board, FILE *fp) {
+	
 	char actual = board->grilla[0][0];
     int cant = 0;
 	for(unsigned int i = 0; i < board->filas; i++){
         for(unsigned int j = 0; j < board->columnas; j++){
 			if (board->grilla[i][j] != actual) {
-				fprintf(fp, "%d", cant);
-                fprintf(fp, "%c\n", actual);
+				if (cant != 0) {
+					fprintf(fp, "%d", cant);
+					fprintf(fp, "%c", actual);
+				}
 				cant = 1;
 				actual = board->grilla[i][j];
 				
 			} else 
 				cant ++;
         }
+		fprintf(fp, "%d%c\n", cant, actual);
+		cant = 0;
     }
 
-    fprintf(fp, "%d%c\n", cant, actual);
+    
 }
 
 // Dado una tablero, se encarga de calcular los intervalos
 // que se debe encargar de computar cada thread.
 int* interv_filas_pthr(board_t* tablero, int cant_pthr){
+	
     int div = floor((tablero->filas * tablero->columnas) / cant_pthr);
     int rest = (tablero->filas * tablero->columnas) % cant_pthr;
-    int* intervalo = malloc(2 * div * sizeof(int));
+	int* intervalo = malloc((2 * cant_pthr * sizeof(int)));
     int i = 0;
+
     for(; i < cant_pthr - 1; i++){
         intervalo[2 * i] = i * div;
         intervalo[(2 * i) + 1] = ((i + 1) * div) - 1;
