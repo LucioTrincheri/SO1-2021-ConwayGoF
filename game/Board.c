@@ -86,6 +86,12 @@ void board_show(board_t *board, FILE *fp) {
     
 }
 
+void agregar_a_fila(char letra, int cantAIngre, int linea, int inicio, board_t *tablero) {
+	for(int puestas = 0; puestas < cantAIngre; puestas++) {
+		board_set(tablero, inicio + puestas, linea, letra);
+	}
+}
+
 // Dado una tablero, se encarga de calcular los intervalos
 // que se debe encargar de computar cada thread.
 int* interv_filas_pthr(board_t* tablero, int cant_pthr){

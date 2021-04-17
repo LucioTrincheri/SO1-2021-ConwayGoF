@@ -40,6 +40,9 @@ int *interv_filas_pthr(board_t* tablero, int cant_pthr);
 /* Función para mostrar el tablero */
 void board_show(board_t *board, FILE *fp);
 
+/* Función que agrega una cantidad de caracteres iguales a una fila */
+void agregar_a_fila(char letra, int cantAIngre, int linea, int inicio, board_t *tablero);
+
 /* Destroy board */
 void board_destroy(board_t *board);
 #endif

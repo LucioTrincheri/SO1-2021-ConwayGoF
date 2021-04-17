@@ -18,11 +18,6 @@
 // Y el nombre del archivo salida tiene que ser, si la entrada es  filepath/NombreArchivo.game(no necesariamente game), 
 // la salida es de la forma: filepath/NombreArchivo.final (vas a tener que extraer NombreArchivo para usarlo).
 
-void agregar_a_fila(char letra, int cantAIngre, int linea, int inicio, board_t *tablero) {
-	for(int puestas = 0; puestas < cantAIngre; puestas++) {
-		board_set(tablero, inicio + puestas, linea, letra);
-	}
-}
 
 
 /* Cargamos el juego desde un archivo */
