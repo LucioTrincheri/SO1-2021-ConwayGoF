@@ -33,7 +33,6 @@ game_t *loadGame(const char *filename) {
 	for(int cantLineas = 0; cantLineas < filas; cantLineas++){
 		// Se lee la linea
 		fscanf(fp, "%s[^\n]", (char *) &linea);
-		// Harcodeamos el largo del numero, a un maximo de 512 digitos (extremadamente grande)
 		char numero[512] = {0};
 		int contNumero = 0, inicio = 0;
 
