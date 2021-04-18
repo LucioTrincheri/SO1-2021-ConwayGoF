@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <math.h>
-#include <unistd.h>
 #include <sys/sysinfo.h>
 #include "game/Board.h"
 #include "game/Game.h"
@@ -43,9 +42,16 @@ void *trabajo_thread(argshilo *arg) {
 	pthread_exit(0);
 }
 
-int main() {
+int main(int argc, char **argv) {
+
+	if (argc != 2) {
+		perror("Cantidad de parametros erronea");
+		exit(EXIT_FAILURE);
+	}
+
+	
 	// Leemos el estado inicial desde un archivo y inicializamos los tableros necesarios.
-	game_t *game = loadGame("tablero.txt");
+	game_t *game = loadGame(argv[1]);
 	board_t *viejo = board_init(game->board->columnas, game->board->filas);
 	board_t *nuevo = game->board;
 
@@ -78,10 +84,11 @@ int main() {
 	pthread_barrier_destroy(&barrier);
 
 	// Escritura del estado final
+	// Teniendo en cuenta cuantos intercambios se hicieron
 	if (game->ciclos % 2 == 0)
-		writeBoard(nuevo, "resultado.txt");
+		writeBoard(nuevo, argv[1]);
 	else
-		writeBoard(viejo, "resultado.txt");
+		writeBoard(viejo, argv[1]);
 	
 	free(interv);
 	board_destroy(viejo);
