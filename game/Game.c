@@ -44,12 +44,13 @@ game_t *loadGame(const char *filename) {
 			}
 			else {
 				// Cuando encontramos un caracter, tenemos que agregarlo al tablero tantas veces como el numero que lo precede.
+				
 				int cantAIngre = (int) strtol(numero, NULL, 10);
-				char numero[512] = {0};
-				// Al compilar con -Wall -Wextra -Werror se crea un error de compilacion con la 
-				// variable numero pues segun el compilador no es usada, pero en realidad si
-				// por eso lo engañamos con esta asiganacion inutil.
-				numero[1] = numero[1];
+				// Limpiamos el buffer de numero de manera manual
+				for(int j = 0; numero[j] != '\0' ; j++){
+					numero[j] = '\0';
+				}
+
 				contNumero = 0;
 				char letra =  linea[i];
 				

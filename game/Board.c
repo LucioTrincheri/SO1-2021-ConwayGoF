@@ -40,11 +40,6 @@ int vecinos_vivos(board_t *board, int col, int row){
     return vivos;
 }
 
-/* Asignarle un valor 'val' a la posición (col, row) del tablero*/
-void board_set(board_t *board, unsigned int col, unsigned int row, char val) {
-	board->grilla[row][col] = val;
-}
-
 /* Dado el estado anterior de una celda, calcula su nuevo estado en el tablero nuevo*/
 void computar_celda(board_t *oldBoard, board_t *newBoard, unsigned int col, unsigned int row) {
     if(oldBoard->grilla[row][col] == 'X'){
@@ -84,6 +79,11 @@ void board_show(board_t *board, FILE *fp) {
     }
 
     
+}
+
+/* Asignarle un valor 'val' a la posición (col, row) del tablero*/
+void board_set(board_t *board, unsigned int col, unsigned int row, char val) {
+	board->grilla[row][col] = val;
 }
 
 void agregar_a_fila(char letra, int cantAIngre, int linea, int inicio, board_t *tablero) {
